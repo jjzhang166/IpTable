@@ -3,12 +3,12 @@
 
 #include <windows.h>
 #include <commctrl.h>
-#include <set>
+#include <algorithm>
 #include "resource.h"
 #include "iptable.h"
 #include "getip.h"
-#pragma  comment(lib,   "comctl32.lib ")			//ImageList_Create  有的程序不加载 所以会crash的
-#include <algorithm>
+#pragma  comment(lib,   "comctl32.lib ")
+
 
 
 //
