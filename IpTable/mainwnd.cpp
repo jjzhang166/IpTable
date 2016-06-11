@@ -1,4 +1,3 @@
-
 #include "stdafx.h"
 
 #include <windows.h>
@@ -53,11 +52,11 @@ inline bool ListView_GetSelectStr( HWND hList, int isubItem, OUT PCH retbuf, IN 
 //
 HINSTANCE hinst;
 HWND MainWnd;
-#define IP_DATA_NAME "qqwry.dat"          //´¿ÕæÊý¾Ý¿â
+#define IP_DATA_NAME "qqwry.dat"          //çº¯çœŸæ•°æ®åº“
 #define hMainList GetDlgItem( MainWnd, IDC_LIST1 )
 
-int lastcolumnclick = -1;                 //¼ÇÂ¼ÉÏ´Îµã»÷µÄÁÐÍ·
-bool blastcolumnclick = false;            //ÓÃÓÚÅÐ¶ÏÊÇ·ñÓ¦¸Ã·­×ªÅÅÐò
+int lastcolumnclick = -1;                 //è®°å½•ä¸Šæ¬¡ç‚¹å‡»çš„åˆ—å¤´
+bool blastcolumnclick = false;            //ç”¨äºŽåˆ¤æ–­æ˜¯å¦åº”è¯¥ç¿»è½¬æŽ’åº
 
 void FillOnce( TcpTable::TcpTableStruct& v ) {
     LV_ITEMA item = {0};
@@ -75,7 +74,7 @@ void FillOnce( TcpTable::TcpTableStruct& v ) {
         strcpy( v.name, "[ no access ]" );
     FsListView_SetItemText( hMainList, cis, 1, v.name );
     //2 address
-    //Ö±½ÓÓÃ´¿Õæ¿â²éÑ¯
+    //ç›´æŽ¥ç”¨çº¯çœŸåº“æŸ¥è¯¢
     CIpFinder ipfinder;
     if( ipfinder.Open( IP_DATA_NAME ) ) {
         std::string country, location;
@@ -108,7 +107,7 @@ void FillInfo( int icloumsort = -1 ) {
     };
 
     TcpTable tt;
-    //TcpTableÅÅÐò
+    //TcpTableæŽ’åº
     if( icloumsort != -1 ) {
         if( lastcolumnclick == icloumsort )
             blastcolumnclick = !blastcolumnclick;
@@ -123,8 +122,8 @@ void FillInfo( int icloumsort = -1 ) {
             sort( tt.getTableVector().begin(), tt.getTableVector().end(),
                 [&]( TcpTable::TcpTableStruct x, TcpTable::TcpTableStruct y )->bool {
                 if( blastcolumnclick )
-                    return x.pid < y.pid;     //µÚ¶þ´Îµã»÷ ½µÐò
-                return x.pid > y.pid;         //µÚÒ»´Îµã»÷ ÉýÐò
+                    return x.pid < y.pid;     //ç¬¬äºŒæ¬¡ç‚¹å‡» é™åº
+                return x.pid > y.pid;         //ç¬¬ä¸€æ¬¡ç‚¹å‡» å‡åº
             } );
             break;
         case 1:
@@ -149,8 +148,8 @@ void FillInfo( int icloumsort = -1 ) {
             sort( tt.getTableVector().begin(), tt.getTableVector().end(),
                 [&]( TcpTable::TcpTableStruct x, TcpTable::TcpTableStruct y )->bool {
                 if( blastcolumnclick )
-                    return x.remoteport < y.remoteport;     //µÚ¶þ´Îµã»÷ ½µÐò
-                return x.remoteport > y.remoteport;         //µÚÒ»´Îµã»÷ ÉýÐò
+                    return x.remoteport < y.remoteport;     //ç¬¬äºŒæ¬¡ç‚¹å‡» é™åº
+                return x.remoteport > y.remoteport;         //ç¬¬ä¸€æ¬¡ç‚¹å‡» å‡åº
             } );
             break;
         case 5:
@@ -204,19 +203,19 @@ void terminateSelectProcess() {
 }
 
 //
-//ÔËÐÐ¿òLogin
+//è¿è¡Œæ¡†Login
 //
 BOOL CALLBACK MainWindowProc( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam ) {
     switch( uMsg ) {
         case WM_INITDIALOG:
             MainWnd = hDlg;
             ListView_SetExtendedListViewStyleEx( hMainList, 0, LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES  );               //style ex
-            ListView_SetImageList( hMainList, ImageList_Create( 1, 16, ILC_COLOR24 | ILC_MASK, 1, 1 ), LVSIL_SMALL );	//¸Ä¸ñ×Ó¸ß¶È
-            FsListView_InsertColum( hMainList, "ËùÔÚÂ·¾¶", 360 );
-            FsListView_InsertColum( hMainList, "¶Ë¿Ú", 60 );
-            FsListView_InsertColum( hMainList, "Ô¶³ÌIP", 120 );
-            FsListView_InsertColum( hMainList, "Ô¶³ÌµØÖ·", 180 );
-            FsListView_InsertColum( hMainList, "Ãû³Æ", 120 );
+            ListView_SetImageList( hMainList, ImageList_Create( 1, 16, ILC_COLOR24 | ILC_MASK, 1, 1 ), LVSIL_SMALL );	//æ”¹æ ¼å­é«˜åº¦
+            FsListView_InsertColum( hMainList, "æ‰€åœ¨è·¯å¾„", 360 );
+            FsListView_InsertColum( hMainList, "ç«¯å£", 60 );
+            FsListView_InsertColum( hMainList, "è¿œç¨‹IP", 120 );
+            FsListView_InsertColum( hMainList, "è¿œç¨‹åœ°å€", 180 );
+            FsListView_InsertColum( hMainList, "åç§°", 120 );
             FsListView_InsertColum( hMainList, "PID", 60 );
             FillInfo();
             break;
@@ -242,11 +241,12 @@ BOOL CALLBACK MainWindowProc( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
             return 1;
 
         case WM_NOTIFY:
-            //µã»÷ÁÐÍ·²¿ÅÅÐòÏûÏ¢
+            //ç‚¹å‡»åˆ—å¤´éƒ¨æŽ’åºæ¶ˆæ¯
             if( (((LPNMHDR)lParam)->idFrom == IDC_LIST1) && (((LPNMHDR)lParam)->code == LVN_COLUMNCLICK) ) {
                 FillInfo( ((LPNMLISTVIEW)lParam)->iSubItem );
+                return 1;
             }
-            //ÓÒ»÷²Ëµ¥
+            //å³å‡»èœå•
             if( ((LPNMHDR)lParam)->code == NM_RCLICK  && LOWORD( wParam ) == IDC_LIST1 ) {
                 POINT pt;
                 GetCursorPos( &pt );
@@ -254,7 +254,7 @@ BOOL CALLBACK MainWindowProc( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
                 TrackPopupMenu( hmu, TPM_LEFTALIGN, pt.x, pt.y, 0, MainWnd, 0 );
                 return 1;
             }
-            return TRUE;
+            return 1;
 
         case WM_CLOSE:
             EndDialog( hDlg, 0 );
